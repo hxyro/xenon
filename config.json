@@ -1,11 +1,42 @@
 {
     "user": "hxyro",
-    "email": "email",
-    "password": "passwd",
+    "email": "ehh",
+    "password": "ehh",
     "url": "https://go.microsoft.com/fwlink/p/?LinkID=873020&clcid=0x409&culture=en-us&country=US&lm=deeplink&lmsrc=homePageWeb&cmpid=WebSignIn",
-    "monday": "eh",
-    "tuesday": "eh",
-    "wednesday": "eh",
-    "thursday": "eh",
-    "friday": "eh"
+
+    "monday": [{
+        "COA": "10:15",
+        "ITC": "11:30",
+        "SE": "01:30",
+        "SEL": "02:45"
+    }],
+    
+    "tuesday": [{
+        "DBMS": "09:00",
+        "SE": "10:15",
+        "ADC": "11:30",
+        "DBMSL": "02:45"
+    }],
+    
+    "wednesday": [{
+        "SE": "09:00",
+        "COA": "10:15",
+        "ADC": "11:30",
+        "ITC": "01:30",
+        "COAL": "02:45"
+    }],
+
+    "thursday": [{
+        "DBMS": "09:00",
+        "COA": "10:15",
+        "ITC": "11:30",
+        "ED": "02:45"
+    }],
+
+    "friday": [{
+        "ADC": "09:00",
+        "DBMS": "10:15",
+        "ITC": "11:30",
+        "ADCL": "02:45"
+    }]
 }
