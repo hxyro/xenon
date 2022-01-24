@@ -1,5 +1,6 @@
 #import's
 from selenium import webdriver
+from selenium.webdriver.common import keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -10,23 +11,13 @@ import requests
 import os
 import json
 import sys
+import time
 ####################################################################
 
 global opt,driver
 
 
 #set default options
-opt = Options()
-opt.add_argument("--disable-infobars")
-opt.add_argument("start-maximized")
-opt.add_argument("--disable-extensions")
-opt.add_argument("--start-maximized")
-opt.add_experimental_option("prefs", 
-   {"profile.default_content_setting_values.media_stream_mic": 1, 
-    "profile.default_content_setting_values.media_stream_camera": 2,
-    "profile.default_content_setting_values.geolocation": 2, 
-    "profile.default_content_setting_values.notifications": 2 
-    })
 
 #Login
 def login(driver,email, passwd):
@@ -114,22 +105,42 @@ def parse_config():
         return None
 
 def is_time(timestamp):
-#       timestamp = block['timestamp'].split('T')[1].split('.')[0]
     day = timestamp.split('T')[0].split('-')
     day = datetime.date(int(day[0]),int(day[1]),int(day[2]))
     if datetime.date.today() == day:
-        current_time = str(datetime.datetime.now()).split(' ')[1].split('.')[0]
         block_time = timestamp.split('T')[1].split('.')[0]
-        current_time_m = int(current_time.split(':')[0])*60 + int(current_time.split(':')[1])
+        current_time_m = datetime.datetime.now().hour * 60 + datetime.datetime.now().minute
         block_time_m = int(block_time.split(':')[0])*60 + int(block_time.split(':')[1]) + 330
-        return current_time_m-block_time_m
-    return False
+        time_diff = current_time_m - block_time_m
+        if time_diff < 45 and time_diff > 0:
+            
+            if current_time_m >= 540 and current_time_m <= 600:
+                return True, 610 - current_time_m
+            if current_time_m >= 615 and current_time_m <= 675:
+                return True, 685 - current_time_m
+            if current_time_m >= 690 and current_time_m <= 750:
+                return True, 760 - current_time_m
+            if current_time_m >= 810 and current_time_m <= 870:
+                return True, 880 - current_time_m
+            if current_time_m >= 885:
+                return True, 1020 - current_time_m
+
+            return True, 60 - (current_time_m - block_time_m)
+        return False, 0
+    return False, 0
+
+def filter(driver, url):
+    driver.get(url)
+    url = driver.current_url
+    driver.quit()
+    time.sleep(1)
+    return url
 
 #retrieve  messages from discord
 def get_messages(channel_id, mention_role_id, token):
     filter_list = []
     r = requests.get(
-            f'https://discord.com/api/v9/channels/{channel_id}/messages?limit=10',
+            f'https://discord.com/api/v9/channels/{channel_id}/messages?limit=12',
             headers={'authorization': token}
             )
     message_list = json.loads(r.text)
