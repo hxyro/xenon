@@ -1,2 +1,6 @@
 # xenon
-umm
+
+Edit:
+`config.json`
+run:
+$ pythom main.py config.json
